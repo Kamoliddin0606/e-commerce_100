@@ -71,6 +71,7 @@ def user_logout(request):
 
 
 def home(request):
+    
     products = Product.objects.filter(status='Publish', condition='New').order_by('-created_date')
     bannerlists = BannerList.objects.all()
     categories = Category.objects.all()
@@ -165,6 +166,7 @@ def wishlist(request):
         
     return render(request, 'wishlist.html',context)
 def shop(request):
+    filter_shop=None
     products = Product.objects.filter(status='Publish').order_by('-created_date')
     categories = Category.objects.all()
     filter_prices = Filter_Price.objects.all()
@@ -194,6 +196,69 @@ def shop(request):
     
     
     
+    if request.method == 'GET':
+        
+        category_get = request.GET.get('category')
+        
+    
+        brand_get = request.GET.get('brand')
+    
+        price_start_get = request.GET.get('price_start')
+    
+        price_end_get = request.GET.get('price_end')
+    
+        color_get = request.GET.get('color')
+
+        if category_get:
+            filter_cat=category_get
+        else:
+            filter_cat=''
+        if brand_get:
+            filter_brand=brand_get
+        else:
+            filter_brand=''
+        if color_get:
+            filter_color=color_get
+        else:
+            filter_color=''
+        
+       
+        if category_get or brand_get or price_start_get or price_end_get or color_get:
+   
+            if category_get:
+
+                products = Product.objects.filter(status='Publish', category=Category.objects.get(id = category_get) ).order_by('-created_date')
+                if color_get:
+
+                    products =products.filter(color = Color.objects.get(id=color_get))
+                if brand_get:
+                    products =products.filter(brand = Brand.objects.get(id=brand_get)) 
+
+            elif brand_get:
+
+                products = Product.objects.filter(status='Publish', brand=Brand.objects.get(id = brand_get) ).order_by('-created_date')
+                if color_get:
+
+                    products =products.filter(color = Color.objects.get(id=color_get))
+                if category_get:
+                    products =products.filter(category = Category.objects.get(id=category_get)) 
+            elif color_get:
+
+                products = Product.objects.filter(status='Publish', color=Color.objects.get(id = color_get) ).order_by('-created_date')
+                if brand_get:
+
+                    products =products.filter(brand = Brand.objects.get(id=brand_get))
+                if category_get:
+                    products =products.filter(category = Category.objects.get(id=category_get)) 
+        
+            print('__________________price end malumotni oldi')
+            filter_shop ={
+               'filter_cat':filter_cat,
+               'filter_brand':filter_brand,
+               'filter_color': filter_color 
+            }
+        else:
+             print('__________________price end malumotni olmadi')
 
 
 
@@ -203,7 +268,8 @@ def shop(request):
         'categories':categories,
         'filter_prices':filter_prices,
         'colors':colors,
-        'brands':brands
+        'brands':brands,
+        'filter_shop':filter_shop
     }
     return render(request, 'shop.html', context)
 

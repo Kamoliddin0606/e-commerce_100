@@ -188,11 +188,11 @@
                                 <h4 class="sidebar-title">Top Categories</h4>
                                 <div class="sidebar-widget-category">
                                     <ul>
-                                        <li><a href="#" class="selected m-0"> All
+                                        <li><a href="{% url 'shop'  %}?category=&brand={{filter_shop.filter_brand}}&price_start=12&price_end=1200&color={{filter_shop.filter_color}}" class="selected m-0"> All
                                                 <span></span> </a></li>
                                         {% for category in categories %}
 
-                                        <li><a href="{% url 'category_detail' category.id %}" class=""> {{category.name}}
+                                        <li><a href="{% url 'shop'  %}?category={{category.id}}&brand={{filter_shop.filter_brand}}&price_start=12&price_end=1200&color={{filter_shop.filter_color}}" class=""> {{category.name}}
                                             <span>({{category.productcategory.count}})</span> </a></li>
                                         
                                         {% endfor %}
@@ -224,7 +224,7 @@
                                     <ul class="d-flex flex-wrap">
 
                                         {% for color in colors  %}
-                                            <span class="color-namee"> {{color.name}} ({{color.productcolor.count}}) - </span> <li><a href="{% url 'color_detail' color.id %}" class="color-1 color111" style="background-color: {{color.code}};"></a></li>
+                                            <span class="color-namee"> {{color.name}} ({{color.productcolor.count}}) - </span> <li><a href="{% url 'shop'  %}?category={{filter_shop.filter_cat}}&brand={{filter_shop.filter_brand}}&price_start=12&price_end=1200&color={{color.id}}" class="color-1 color111" style="background-color: {{color.code}};"></a></li>
                                         {% endfor %}
                                         
                                     </ul>
@@ -238,7 +238,7 @@
                                     <ul>
 
                                         {% for brand in brands  %}
-                                            <li><a href="{% url 'brand_detail' brand.id %}" class="selected m-0"> {{brand.name}}<span>({{brand.productbrand.count}})</span> </a></li>
+                                            <li><a href="{% url 'shop'  %}?category={{filter_shop.filter_cat}}&brand={{brand.id}}&price_start=12&price_end=1200&color={{filter_shop.filter_color}}" class="color-1 color111" style="background-color: {{color.code}};" class="selected m-0"> {{brand.name}}<span>({{brand.productbrand.count}})</span> </a></li>
                                         {% endfor %}
                                        
                                     </ul>
